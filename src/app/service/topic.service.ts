@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {User} from "../interface/user";
+import {Topic} from "../interface/topic";
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class TopicService {
 
   constructor(private http: HttpClient) { }
 
-  postUser(userf: User): Observable<User> {
-    return this.http.post<User>(`http://localhost:8080/login`, userf);
+  getTopic(): Observable<Topic> {
+    return this.http.get<Topic>(`http://localhost:8080/topic/1`);
   }
 }
