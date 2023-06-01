@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "./service/user.service";
 import {TopicService} from "./service/topic.service";
 import {User} from "./interface/user";
-import {Router} from "@angular/router";
-import {Topic} from "./interface/topic";
 
 @Component({
   selector: 'app-root',
@@ -16,11 +14,8 @@ export class AppComponent implements OnInit{
     'email':'kevin@gmail.com',
     'password':'123456'
 }
-  constructor(private userService: UserService, private topicService: TopicService, private router: Router) {}
-  topic!: Topic;
-  navigateToTopic() {
-    this.router.navigate(['/topics']);
-  }
+  constructor(private userService: UserService) {}
+
   ngOnInit(): void {
     //this.OnGetTopic();
     //this.OnPostUser()
@@ -57,14 +52,6 @@ export class AppComponent implements OnInit{
 
 
   //topic
-  OnGetTopic():void{
-    this.topicService.getTopic().subscribe(
-      (response: Topic)=>{
-        this.topic=response;
-        console.log(this.topic)
-      });
-  }
-
   //user foro
   OnPostUser():void{
     this.userService.postUser(this.user).subscribe(
