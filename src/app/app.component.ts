@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "./service/user.service";
-import {TopicService} from "./service/topic.service";
 import {User} from "./interface/user";
+import {AuthService} from "./service/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -14,11 +14,18 @@ export class AppComponent implements OnInit{
     'email':'kevin@gmail.com',
     'password':'123456'
 }
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    //this.OnGetTopic();
-    //this.OnPostUser()
+    this.onPostAuth();
+  }
+
+  onPostAuth(){
+    this.authService.login(this.user).subscribe(
+      (response: any)=>{
+        this.authService.setToken(response.JWTtoken)
+      }
+    );
   }
   /*
   onGetUsers(): void {
@@ -50,14 +57,9 @@ export class AppComponent implements OnInit{
 
    */
 
-
-  //topic
-  //user foro
   OnPostUser():void{
     this.userService.postUser(this.user).subscribe(
-      (response) => console.log(response),
-      (error: any) => console.log(error),
-      () => console.log('Done creating user'),
+      (response) => console.log(response)
     );
   }
 

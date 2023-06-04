@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  postUser(userf: User): Observable<User> {
-    return this.http.post<User>(`http://localhost:8080/login`, userf);
+  postUser(user: User): Observable<User> {
+    return this.http.post<User>(`http://localhost:8080/login`, user);
   }
 }

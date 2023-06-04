@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,23 @@ import {Observable} from "rxjs";
 
 export class TokenInterceptorService implements HttpInterceptor{
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXZpbkBnbWFpbC5jb20iLCJpc3MiOiJmb3J1bSBhcGkiLCJpZCI6MSwiZXhwIjoxNjg1NjU3MjgzfQ.Xf589bAvZpSrQWmGkyLstdkGAZVzSxQGcVXg4vHcePQ';
-    req = req.clone({
-      headers:req.headers.set('Authorization','Bearer '+token)
-      }
-    )
-    return next.handle(req);
+    console.log("la url es:"+req.url)
+    if (req.url == 'http://localhost:8080/login'){
+      return next.handle(req);
+    }
+    else {
+      let token=this.authService.getToken();
+      //let token = '';
+      req = req.clone({
+          headers:req.headers.set('Authorization','Bearer '+token)
+        }
+      )
+      return next.handle(req);
+    }
+
   }
 }
 
